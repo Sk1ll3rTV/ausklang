@@ -5,6 +5,7 @@ import { dayLabel } from './domain/format';
 import { HOUR, MIN } from './domain/time';
 import type { CigaretteEvent, CravingEvent } from './domain/types';
 import { requestPersistentStorage } from './persistence/db';
+import { importPersonalDataFromHash } from './persistence/personalImport';
 import { addCigarette, loadSettings, resolveCraving } from './persistence/repo';
 import { useAppData, useAppearance, type AppData } from './state/useAppData';
 import { IconButton } from './ui/components/controls';
@@ -30,7 +31,11 @@ const TABS: { id: Tab; label: string; icon: IconName }[] = [
 export default function App() {
   const [booted, setBooted] = useState(false);
   useEffect(() => {
-    void loadSettings().then(() => setBooted(true));
+    void (async () => {
+      await importPersonalDataFromHash();
+      await loadSettings();
+      setBooted(true);
+    })();
     void requestPersistentStorage();
   }, []);
 
