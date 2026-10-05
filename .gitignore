@@ -1,0 +1,12 @@
+node_modules
+dist
+dev-dist
+.wrangler
+.dev.vars
+.env
+.env.*
+!.env.example
+*.local
+*.log
+.DS_Store
+scripts/.smoke

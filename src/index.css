@@ -1,0 +1,309 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: system-ui, -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+  --font-rounded: ui-rounded, 'SF Pro Rounded', system-ui, -apple-system, sans-serif;
+  --color-ink: var(--ink);
+  --color-ink2: var(--ink2);
+  --color-ink3: var(--ink3);
+  --color-fill: var(--fill);
+  --color-fill2: var(--fill2);
+  --color-sep: var(--sep);
+  --color-accent: var(--accent);
+  --color-ok: var(--ok);
+  --color-warn: var(--warn);
+  --color-alert: var(--alert);
+  --color-bg: var(--bg);
+  --color-solid: var(--solid);
+  --color-on-solid: var(--on-solid);
+}
+
+/* Farbschema wird in index.html (vor dem Rendern) und in ui/theme.ts über data-theme gesetzt. */
+:root {
+  --bg: #f2f2f7;
+  --ambient:
+    radial-gradient(120% 55% at 10% -8%, rgba(118, 168, 198, 0.3), transparent 62%),
+    radial-gradient(90% 45% at 105% 4%, rgba(160, 150, 208, 0.18), transparent 60%),
+    radial-gradient(110% 50% at 50% 108%, rgba(140, 190, 172, 0.2), transparent 62%);
+  --glass: rgba(255, 255, 255, 0.6);
+  --glass-strong: rgba(255, 255, 255, 0.8);
+  --glass-border: rgba(255, 255, 255, 0.9);
+  --glass-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  --glass-shadow: 0 1px 1px rgba(20, 30, 50, 0.03), 0 10px 30px rgba(30, 44, 66, 0.08);
+  --sheet: rgba(246, 246, 250, 0.9);
+  --ink: #111114;
+  --ink2: rgba(60, 60, 67, 0.7);
+  --ink3: rgba(60, 60, 67, 0.44);
+  --fill: rgba(118, 118, 128, 0.12);
+  --fill2: rgba(118, 118, 128, 0.2);
+  --sep: rgba(60, 60, 67, 0.13);
+  --accent: #2e6f95;
+  --ok: #2c8a5f;
+  --warn: #b27225;
+  --alert: #b9544e;
+  --solid: #17171a;
+  --on-solid: #ffffff;
+  --chart: #2e6f95;
+  /* Bewusst neutral: Restanteil, keine eigene Kategorie. */
+  --chart-neutral: #8a8e98;
+  --scrim: rgba(10, 14, 22, 0.28);
+  --spring: linear(
+    0,
+    0.009,
+    0.035 2.1%,
+    0.141 4.4%,
+    0.723 12.9%,
+    0.938 16.7%,
+    1.017,
+    1.077,
+    1.121,
+    1.149 24.3%,
+    1.159,
+    1.163,
+    1.161,
+    1.154 29.9%,
+    1.129 32.8%,
+    1.051 39.6%,
+    1.017 43.1%,
+    0.991,
+    0.977 51%,
+    0.974 53.8%,
+    0.975 57.1%,
+    0.997 69.8%,
+    1.003 76.9%,
+    1.004 83.8%,
+    1
+  );
+  --ease-sheet: cubic-bezier(0.32, 0.72, 0, 1);
+  color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+  --bg: #000000;
+  --ambient:
+    radial-gradient(120% 55% at 10% -8%, rgba(52, 104, 142, 0.42), transparent 62%),
+    radial-gradient(90% 45% at 105% 4%, rgba(96, 86, 160, 0.26), transparent 60%),
+    radial-gradient(110% 50% at 50% 108%, rgba(46, 112, 96, 0.24), transparent 62%);
+  --glass: rgba(44, 44, 50, 0.52);
+  --glass-strong: rgba(54, 54, 60, 0.78);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  --glass-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  --sheet: rgba(28, 28, 32, 0.88);
+  --ink: #f5f5f7;
+  --ink2: rgba(235, 235, 245, 0.66);
+  --ink3: rgba(235, 235, 245, 0.4);
+  --fill: rgba(118, 118, 128, 0.24);
+  --fill2: rgba(118, 118, 128, 0.36);
+  --sep: rgba(110, 110, 118, 0.42);
+  --accent: #7db7d8;
+  --ok: #5ec394;
+  --warn: #e2a55e;
+  --alert: #e58a84;
+  --solid: #f5f5f7;
+  --on-solid: #101013;
+  --chart: #5fa3c9;
+  --chart-neutral: #6b6f78;
+  --scrim: rgba(0, 0, 0, 0.5);
+  color-scheme: dark;
+}
+
+/* In @layer base, damit Utility-Klassen (z. B. Textfarben auf Buttons) Vorrang haben. */
+@layer base {
+  html {
+    height: 100%;
+    background: var(--bg);
+    overscroll-behavior: none;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    position: fixed;
+    inset: 0;
+    margin: 0;
+    overflow: hidden;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+  }
+
+  #root {
+    position: absolute;
+    inset: 0;
+    background: var(--ambient);
+  }
+
+  input,
+  textarea {
+    user-select: text;
+    -webkit-user-select: text;
+    /* iOS zoomt bei Schriftgrößen unter 16px in Eingabefelder hinein. */
+    font-size: 16px;
+  }
+
+  button {
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  button:focus-visible,
+  a:focus-visible,
+  input:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+}
+
+.scroll-area {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.scroll-area::-webkit-scrollbar {
+  display: none;
+}
+
+/* --- Liquid Glass ---------------------------------------------------------- */
+
+.glass {
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  backdrop-filter: blur(28px) saturate(180%);
+  border: 0.5px solid var(--glass-border);
+  box-shadow: var(--glass-shadow), var(--glass-highlight);
+}
+
+.glass-strong {
+  background: var(--glass-strong);
+  -webkit-backdrop-filter: blur(36px) saturate(190%);
+  backdrop-filter: blur(36px) saturate(190%);
+  border: 0.5px solid var(--glass-border);
+  box-shadow: var(--glass-shadow), var(--glass-highlight);
+}
+
+.card {
+  border-radius: 26px;
+  padding: 16px 18px;
+}
+
+.pressable {
+  transition:
+    transform 0.5s var(--spring),
+    opacity 0.2s ease;
+}
+.pressable:active {
+  transform: scale(0.965);
+  opacity: 0.86;
+  transition-duration: 0.12s;
+}
+
+.num {
+  font-family: var(--font-rounded);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+/* --- Bewegungen ------------------------------------------------------------ */
+
+@keyframes bump {
+  0% {
+    transform: scale(1);
+  }
+  30% {
+    transform: scale(1.09);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.bump {
+  animation: bump 0.55s var(--spring);
+}
+
+@keyframes pulse-ring {
+  0% {
+    opacity: 0.45;
+    transform: scale(0.96);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.12, 1.5);
+  }
+}
+.pulse-ring {
+  animation: pulse-ring 0.6s ease-out forwards;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.fade-up {
+  animation: fade-up 0.45s var(--ease-sheet) both;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.fade-in {
+  animation: fade-in 0.35s ease both;
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    transform: scale(0.62);
+  }
+  45%,
+  55% {
+    transform: scale(1);
+  }
+}
+.breathe {
+  animation: breathe 10s ease-in-out infinite;
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: scale(0.94);
+    opacity: 0.75;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.drift {
+  animation: drift 7s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
